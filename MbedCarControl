@@ -1,0 +1,76 @@
+#include "AnalogIn.h"
+#include "PwmOut.h"
+#include "stm32f4xx_hal.h"
+
+#include "DigitalIn.h"
+#include "DigitalOut.h"
+#include "PinNames.h"
+#include "cmsis_os2.h"
+#include "mbed.h"
+#include "mbed_wait_api.h"
+#include "motordriver.h"
+#include "Servo.h"
+#include "stm32f4xx_hal_uart.h"
+#include <cstdio>
+
+// main() runs in its own thread in the OS
+PwmOut servoMotor(D9);
+PwmOut speedMotor(D3); 
+DigitalOut motorPhaseBack(D2);    //Enable for driving backward
+DigitalOut motorPhaseForward(D4); //Enable for driving forward
+AnalogIn refMotor(A0); 
+DigitalOut led(LED2);
+Rawser
+
+// valoarea de 0.01 e decenta ca sa nu o ia masina razna
+
+void moveBack(float vit)
+{
+    motorPhaseBack.write(1);
+    motorPhaseForward.write(0);
+    speedMotor.write(vit);
+    //ForwardMotor.speed(vit) ;               
+}
+void moveForward(float vit)
+{
+   motorPhaseBack.write(0);
+    motorPhaseForward.write(1);
+    speedMotor.write(vit);
+                      
+     
+}
+float servoAngle(float angle)
+{
+    return (0.0009505 * angle + 0.07525);
+
+}
+//positive values for right turning
+//negative values for left turning
+void servoTurn(float angle)
+{
+   servoMotor.write(servoAngle(angle));
+   
+}
+void resetDir()
+{
+   
+    servoMotor.write(0.07525);
+}
+void moveStop(float vit)
+{
+     motorPhaseBack.write(1);
+    motorPhaseForward.write(0);
+    speedMotor.write(vit);
+}
+
+int main()
+{
+     //servoMotor.period_ms(20);
+    //resetDir();
+    
+   while (1) {
+     
+   }
+   
+}
+
