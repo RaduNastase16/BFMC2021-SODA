@@ -20,7 +20,7 @@ DigitalOut motorPhaseBack(D2);    //Enable for driving backward
 DigitalOut motorPhaseForward(D4); //Enable for driving forward
 AnalogIn refMotor(A0); 
 DigitalOut led(LED2);
-Rawser
+static BufferedSerial pc(USBTX, USBRX);
 
 // valoarea de 0.01 e decenta ca sa nu o ia masina razna
 
@@ -67,9 +67,35 @@ int main()
 {
      //servoMotor.period_ms(20);
     //resetDir();
-    
+    char *c = new char[1];
    while (1) {
-     
+     pc.read(c, sizeof(c));
+     if (*c == 'a')
+      {
+          servoTurn(-15);
+      }
+      else if (*c == 'd')
+      {
+          servoTurn(15);
+      }
+      else if (*c == 'w')
+      {
+          moveStop(0);
+          moveForward(0.18);
+      }
+      else if (*c == 's')
+      {
+         moveStop(0);
+          moveBack(0.18);
+      }
+      else if (*c == 'x')
+      {
+          resetDir();
+      }
+      else if(*c == 'z')
+      {
+          moveStop(0);
+      }
    }
    
 }
